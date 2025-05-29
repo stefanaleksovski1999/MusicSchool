@@ -3,6 +3,7 @@
 import React from 'react';
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslations } from 'use-intl';
 
 const videos = [
   "https://www.youtube.com/watch?v=oR2StQvQN_I&t=20s",
@@ -10,6 +11,7 @@ const videos = [
 ];
 
 function AboutSection() {
+  const t = useTranslations();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const prevVideo = () => {
@@ -26,15 +28,15 @@ function AboutSection() {
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 mb-8 md:mb-0">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/HNLXqCTHwC0?si=hC7vclfecOTaVQ1n" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/HNLXqCTHwC0?si=hC7vclfecOTaVQ1n" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> */}
           </div>
           <div className="md:w-1/2 md:pl-10">
-            <h2 className="text-3xl font-bold mb-4 text-yellow-800">About Me</h2>
+            <h2 className="text-3xl font-bold mb-4 text-yellow-800">{t("about")}</h2>
             <p className="text-gray-700 mb-4">
-              Hello! I'm Stefan Aleksovski, a professional pianist with over 10 years of teaching experience. I hold a Master's degree in Piano Performance from Faculty of Music in North Macedonia and have performed in venues across the world.
+              {t("bioIntro")}
             </p>
             <p className="text-gray-700 mb-4">
-              My teaching philosophy focuses on developing proper technique, musical understanding, and a genuine love for music. I believe that every student has unique potential, and I tailor my lessons to meet individual needs and goals.
+              {t("bioPhilosophy")}
             </p>
             <p className="text-gray-700">
             </p>

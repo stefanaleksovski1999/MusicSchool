@@ -1,9 +1,12 @@
 "use client";
 import React from 'react';
 import { useState, useEffect } from "react";
+import { useTranslations } from 'next-intl';
 
 
 function TestimonialsSection() {
+  const tr = useTranslations();
+  
   const [testimonials, setTestimonials] = useState([]);
 
 
@@ -27,13 +30,13 @@ function TestimonialsSection() {
   return (
     <section id="testimonials"  className="py-16 bg-yellow-50">
       <div className="container mx-auto px-6">
-        <h2 className="text-3xl font-bold mb-12 text-center text-gray-800">What My Students Say</h2>
+        <h2 className="text-3xl font-bold mb-12 text-center text-gray-800">{tr("testimonialsTitle")}</h2>
         <div className="text-center mb-8">
           <button
             onClick={() => window.location.href = "/write-review"}
             className="bg-indigo-600 text-white px-6 py-2 rounded hover:bg-indigo-700 transition"
           > 
-          ✍️ Write a Review
+          {tr("writeReview")}
           </button>
         </div>
         

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { connectDB } from "../../../lib/mongodb";  
-import Booking from "../../../models/Booking";  
+import { connectDB } from "../../../src/lib/mongodb";  
+import Booking from "@/models/Booking";
 import { sendConfirmationEmail } from "@/lib/sendEmail";
 
 

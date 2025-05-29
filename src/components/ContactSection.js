@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useTranslations } from 'use-intl';
 
 function ContactSection() {
+  const t = useTranslations();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -36,14 +38,14 @@ function ContactSection() {
   return (
     <section id="contact" className="py-16 bg-gradient-to-r from-yellow-600 to-gray-500 text-white">
       <div className="container mx-auto px-6">
-        <h2 className="text-3xl font-bold mb-8 text-center text-white-800">Get In Touch</h2>
+        <h2 className="text-3xl font-bold mb-8 text-center text-white-800">{t("getInTouch")}</h2>
         
         <div className="flex flex-col md:flex-row gap-8">
           <div className="md:w-1/2 bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-bold mb-4 text-yellow-800">Send Me a Message</h3>
+            <h3 className="text-xl font-bold mb-4 text-yellow-800"></h3>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label htmlFor="name" className="block text-gray-700 mb-2">Your Name</label>
+                <label htmlFor="name" className="block text-gray-700 mb-2">{t("yourName")}</label>
                 <input
                   type="text"
                   id="name"
@@ -56,7 +58,7 @@ function ContactSection() {
               </div>
               
               <div className="mb-4">
-                <label htmlFor="email" className="block text-gray-700 mb-2">Email Address</label>
+                <label htmlFor="email" className="block text-gray-700 mb-2">{t("emailAddress")}</label>
                 <input
                   type="email"
                   id="email"
@@ -69,7 +71,7 @@ function ContactSection() {
               </div>
               
               <div className="mb-4">
-                <label htmlFor="phone" className="block text-gray-700 mb-2">Phone Number</label>
+                <label htmlFor="phone" className="block text-gray-700 mb-2">{t("phoneNumber")}</label>
                 <input
                   type="tel"
                   id="phone"
@@ -81,7 +83,7 @@ function ContactSection() {
               </div>
               
               <div className="mb-4">
-                <label htmlFor="experience" className="block text-gray-700 mb-2">Your Experience Level</label>
+                <label htmlFor="experience" className="block text-gray-700 mb-2">{t("experienceLevel")}</label>
                 <select
                   id="experience"
                   name="experience"
@@ -96,7 +98,7 @@ function ContactSection() {
               </div>
               
               <div className="mb-4">
-                <label htmlFor="message" className="block text-gray-700 mb-2">Your Message</label>
+                <label htmlFor="message" className="block text-gray-700 mb-2">{t("yourMessage")}</label>
                 <textarea
                   id="message"
                   name="message"
@@ -109,44 +111,44 @@ function ContactSection() {
               </div>
               
               <button type="submit" className="w-full bg-gray-600 text-white py-2 rounded-lg font-medium hover:bg-gray-700 transition duration-300">
-                Send Message
+                {t("sendMessage")}
               </button>
             </form>
           </div>
           
           <div className="md:w-1/2 bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-bold mb-4 text-yellow-800">How Online Lessons Work</h3>
+            <h3 className="text-xl font-bold mb-4 text-yellow-800">{t("howItWorks")}</h3>
             
             <div className="mb-6">
               <div className="flex items-center mb-2">
                 <div className="h-8 w-8 rounded-full bg-yellow-600 text-white flex items-center justify-center font-bold mr-3">1</div>
-                <h4 className="font-bold text-lg">Book Your Lesson</h4>
+                <h4 className="text-gray-700 font-bold text-lg">{t("step1Title")}</h4>
               </div>
-              <p className="text-gray-700 pl-11">Choose your package and schedule a time that works for you.</p>
+              <p className="text-gray-700 pl-11">{t("step1Desc")}</p>
             </div>
             
             <div className="mb-6">
               <div className="flex items-center mb-2">
                 <div className="h-8 w-8 rounded-full bg-yellow-600 text-white flex items-center justify-center font-bold mr-3">2</div>
-                <h4 className="font-bold text-lg">Prepare Your Setup</h4>
+                <h4 className="text-gray-700 font-bold text-lg">{t("step2Title")}</h4>
               </div>
-              <p className="text-gray-700 pl-11">Ensure you have a keyboard/piano, Microsoft Teams installed, and a stable internet connection.</p>
+              <p className="text-gray-700 pl-11">{t("step2Desc")}</p>
             </div>
             
             <div className="mb-6">
               <div className="flex items-center mb-2">
                 <div className="h-8 w-8 rounded-full bg-yellow-600 text-white flex items-center justify-center font-bold mr-3">3</div>
-                <h4 className="font-bold text-lg">Join the Meeting</h4>
+                <h4 className="text-gray-700 font-bold text-lg">{t("step3Title")}</h4>
               </div>
-              <p className="text-gray-700 pl-11">Click the Teams link sent to your email at your scheduled lesson time.</p>
+              <p className="text-gray-700 pl-11">{t("step3Desc")}</p>
             </div>
             
             <div>
               <div className="flex items-center mb-2">
                 <div className="h-8 w-8 rounded-full bg-yellow-600 text-white flex items-center justify-center font-bold mr-3">4</div>
-                <h4 className="font-bold text-lg">Learn & Practice</h4>
+                <h4 className="text-gray-700 font-bold text-lg">{t("step4Title")}</h4>
               </div>
-              <p className="text-gray-700 pl-11">Enjoy your lesson and follow the personalized practice plan between sessions.</p>
+              <p className="text-gray-700 pl-11">{t("step4Desc")}</p>
             </div>
           </div>
         </div>

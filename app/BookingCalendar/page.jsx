@@ -1,9 +1,10 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from 'react';
-
+import { useTranslations } from "next-intl"; 
 
 const BookingCalendar = () => {
+  const t = useTranslations();
   const searchParams = useSearchParams();
   const bookingTypeFromURL = searchParams.get("bookingType");
   // State for the booking process
@@ -137,7 +138,7 @@ const BookingCalendar = () => {
   const handleNext = async () => {
     if (step === 1) {
       if (!formData.name || !formData.email) {
-        setError('Please enter your name and email');
+        setError(t('PleaseEnterYourNameAndEmail'));
         return;
       }
   
@@ -172,7 +173,7 @@ const BookingCalendar = () => {
   
     } else if (step === 2) {
       if (!selectedDate) {
-        setError('Please select a date');
+        setError(t('Please select a date'));
         return;
       }
       setError('');
@@ -245,9 +246,9 @@ const BookingCalendar = () => {
   // Render the user info form (Step 1)
   const renderUserInfoForm = () => (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold text-gray-100">Your Information</h2>
+      <h2 className="text-xl font-semibold text-gray-100">{t('yourInformation')}</h2>
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-300">Name *</label>
+        <label htmlFor="name" className="block text-sm font-medium text-gray-300">{t('name')}</label>
         <input
           type="text"
           id="name"
@@ -259,7 +260,7 @@ const BookingCalendar = () => {
         />
       </div>
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-300">Email *</label>
+        <label htmlFor="email" className="block text-sm font-medium text-gray-300">{t('email')}</label>
         <input
           type="email"
           id="email"
@@ -271,7 +272,7 @@ const BookingCalendar = () => {
         />
       </div>
       <div>
-        <label htmlFor="note" className="block text-sm font-medium text-gray-300">Note (Optional)</label>
+        <label htmlFor="note" className="block text-sm font-medium text-gray-300">{t('note')}</label>
         <textarea
           id="note"
           name="note"
@@ -291,7 +292,7 @@ const BookingCalendar = () => {
     
     return (
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-100">Select a Date</h2>
+        <h2 className="text-xl font-semibold text-gray-100">{t('selectDate')}</h2>
         
         <div className="flex items-center justify-between mb-4">
           <button 
@@ -342,7 +343,7 @@ const BookingCalendar = () => {
         
         {selectedDate && (
           <div className="mt-4 text-center p-2 bg-gray-700 rounded-md">
-            <p className="text-gray-200">Selected: {formatDate(selectedDate)}</p>
+            <p className="text-gray-200">{t('selected')}: {formatDate(selectedDate)}</p>
           </div>
         )}
       </div>
@@ -352,7 +353,7 @@ const BookingCalendar = () => {
   // Render the time selection (Step 3)
   const renderTimeSelection = () => (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold text-gray-100">Select a Time</h2>
+      <h2 className="text-xl font-semibold text-gray-100">{t('selectDate')}</h2>
       <p className="text-gray-300">{formatDate(selectedDate)}</p>
       
       {isLoading ? (
@@ -455,7 +456,7 @@ const BookingCalendar = () => {
                   onClick={handleBack}
                   className="px-4 py-2 bg-gray-700 text-gray-200 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500"
                 >
-                  Back
+                  {t('back')}
                 </button>
               ) : (
                 <div></div> // Empty div to maintain spacing
@@ -466,7 +467,7 @@ const BookingCalendar = () => {
                   onClick={handleNext}
                   className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500"
                 >
-                  Next
+                  {t('next')}
                 </button>
               ) : (
                 <button
@@ -477,7 +478,7 @@ const BookingCalendar = () => {
                     !formData.time ? 'bg-gray-600 text-gray-400 cursor-not-allowed' : 
                     'bg-indigo-600 text-white hover:bg-indigo-700'}`}
                 >
-                  {isLoading ? 'Booking...' : 'Confirm Booking'}
+                  {isLoading ? 'Booking...' : t('confirmBooking')}
                 </button>
               )}
             </div>

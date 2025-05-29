@@ -1,10 +1,12 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 function ServicesSection() {
+  const t = useTranslations();
   return (
     <section id="services" className="py-16 bg-white">
       <div className="container mx-auto px-6">
-        <h2 className="text-3xl font-bold mb-8 text-center text-yellow-800">My Services</h2>
+        <h2 className="text-3xl font-bold mb-8 text-center text-yellow-800">{t("servicesTitle")}</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="bg-gray-50 p-6 rounded-lg shadow-md">
@@ -13,8 +15,8 @@ function ServicesSection() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
             </div>
-            <h3 className="text-xl font-bold mb-2 text-yellow-800">Private Lessons</h3>
-            <p className="text-gray-700">One-on-one instruction tailored to your goals and skill level. Available for beginners to advanced pianists of all ages.</p>
+            <h3 className="text-xl font-bold mb-2 text-yellow-800">{t("privateLessons")}</h3>
+            <p className="text-gray-700">{t("privateDescription")}</p>
           </div>
           
           {/* <div className="bg-gray-50 p-6 rounded-lg shadow-md">
@@ -33,8 +35,8 @@ function ServicesSection() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
               </svg>
             </div>
-            <h3 className="text-xl font-bold mb-2 text-yellow-800">Specialized Programs</h3>
-            <p className="text-gray-700">Focused courses on specific skills like jazz improvisation, classical repertoire, music theory, or exam preparation.</p>
+            <h3 className="text-xl font-bold mb-2 text-yellow-800">{t("specialPrograms")}</h3>
+            <p className="text-gray-700">{t("specialDescription")}</p>
           </div>
         </div>
       </div>

@@ -44,37 +44,67 @@ export async function sendConfirmationEmail({ to, name, date, time, bookingType 
   } else {
     // Customize based on package
     if (locale === "en") {
+      console.log("tuke ideeeeeeee 22222222", locale);
     let price = "";
     if (bookingType === "beginner package") price = "$20";
     if (bookingType === "standard package") price = "$30";
     if (bookingType === "advanced package") price = "$40";
 
-    subject = `🎹 Deine ${bookingType} ist bestätigt – Zahlungsinformationen`;
+    subject = `🎹 Your ${bookingType} is confirmed – Payment Information`;
 
     html = `
-      <h2>Hallo ${displayName}! 🎶</h2>
-      <p>Ihre <strong>${bookingType}</strong> Unterrichtseinheit wurde gebucht:</p>
-      <p><strong>Date:</strong> ${date}<br/><strong>Zeit:</strong> ${time}</p>
+      <h2>Hello ${displayName}! 🎶</h2>
+      <p>Your <strong>${bookingType}</strong> lesson has been booked:</p>
+      <p><strong>Date:</strong> ${date}<br/><strong>Time:</strong> ${time}</p>
 
-      <h3>💳 Zahlung erforderlich</h3>
-      <p>Bitte schließen Sie Ihre Buchung ab, indem Sie<strong>${price}</strong> per PayPal bezahlen.</p>
+      <h3>💳 Payment Required</h3>
+      <p>Please close your booking by paying <strong>${price}</strong> via PayPal.</p>
       <p><a href="https://paypal.me/YOUR_PAYPAL_LINK" target="_blank" style="background:#0070f3;color:white;padding:10px 20px;border-radius:5px;text-decoration:none;">Pay Now on PayPal</a></p>
 
-      <h4>📝 Zahlungsschritte:</h4>
+      <h4>📝 Payment Steps:</h4>
       <ol>
-        <li>Klicken Sie oben auf die PayPal-Schaltfläche oder gehen Sie zu: <a href="https://paypal.me/YOUR_PAYPAL_LINK">paypal.me/YOUR_PAYPAL_LINK</a></li>
-        <li>Geben Sie den Betrag ein: <strong>${price}</strong></li>
-        <li>Fügen Sie eine Notiz mit Ihrem Namen und dem Unterrichtsdatum hinzu</li>
-        <li>Senden Sie die Zahlung</li>
+        <li>Click the PayPal button above or go to: <a href="https://paypal.me/YOUR_PAYPAL_LINK">paypal.me/YOUR_PAYPAL_LINK</a></li>
+        <li>Enter the amount: <strong>${price}</strong></li>
+        <li>Add a note with your name and lesson date</li>
+        <li>Send the payment</li>
       </ol>
 
-      <p>Wenn Sie Fragen haben, antworten Sie einfach auf diese E-Mail.</p>
+      <p>If you have any questions, simply reply to this email.</p>
 
       <hr/>
-      <p>🎹 Vielen Dank, dass Sie sich für Your Music School entschieden haben!</p>
+      <p>🎹 Thank you for choosing Your Music School!</p>
     `;
       
     } else {
+      let price = "";
+      if (bookingType === "beginner package") price = "$20";
+      if (bookingType === "standard package") price = "$30";
+      if (bookingType === "advanced package") price = "$40";
+
+      subject = `🎹 Deine ${bookingType} ist bestätigt – Zahlungsinformationen`;
+
+      html = `
+        <h2>Hallo ${displayName}! 🎶</h2>
+        <p>Ihre <strong>${bookingType}</strong> Unterrichtseinheit wurde gebucht:</p>
+        <p><strong>Date:</strong> ${date}<br/><strong>Zeit:</strong> ${time}</p>
+
+        <h3>💳 Zahlung erforderlich</h3>
+        <p>Bitte schließen Sie Ihre Buchung ab, indem Sie<strong>${price}</strong> per PayPal bezahlen.</p>
+        <p><a href="https://paypal.me/YOUR_PAYPAL_LINK" target="_blank" style="background:#0070f3;color:white;padding:10px 20px;border-radius:5px;text-decoration:none;">Pay Now on PayPal</a></p>
+
+        <h4>📝 Zahlungsschritte:</h4>
+        <ol>
+          <li>Klicken Sie oben auf die PayPal-Schaltfläche oder gehen Sie zu: <a href="https://paypal.me/YOUR_PAYPAL_LINK">paypal.me/YOUR_PAYPAL_LINK</a></li>
+          <li>Geben Sie den Betrag ein: <strong>${price}</strong></li>
+          <li>Fügen Sie eine Notiz mit Ihrem Namen und dem Unterrichtsdatum hinzu</li>
+          <li>Senden Sie die Zahlung</li>
+        </ol>
+
+        <p>Wenn Sie Fragen haben, antworten Sie einfach auf diese E-Mail.</p>
+
+        <hr/>
+        <p>🎹 Vielen Dank, dass Sie sich für Your Music School entschieden haben!</p>
+      `;
       
     }
   }

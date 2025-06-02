@@ -1,9 +1,11 @@
 "use client";
 import React, { useState } from 'react';
 
-
 function PricingSection() {
-const [selectedPackage, setSelectedPackage] = useState('');
+  const [selectedPackage, setSelectedPackage] = useState(null);
+  
+
+  const isSelected = (id) => selectedPackage === id;
 
   return (
     <section id="pricing" className="py-16 bg-white">
@@ -11,135 +13,122 @@ const [selectedPackage, setSelectedPackage] = useState('');
         <h2 className="text-3xl font-bold mb-12 text-center text-gray-800">Lesson Packages</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-gray-50 p-6 rounded-lg shadow-md border-t-4 border-yellow-400">
-            <h3 className="text-xl font-bold mb-4 text-gray-800">Beginner Package</h3>
-            <div className="text-3xl font-bold mb-4 text-gray-800">$20 <span className="text-lg text-black-100 font-normal">/ 30 min</span></div>
-            <ul className="mb-8 space-y-2 text-gray-800">
-              <li className="flex items-center">
-                <svg className="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                30-minute lesson
-              </li>
-              <li className="flex items-center">
-                <svg className="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                Basic music theory
-              </li>
-              <li className="flex items-center">
-                <svg className="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                Beginner repertoire
-              </li>
-              <li className="flex items-center">
-                <svg className="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                Digital lesson materials
-              </li>
-            </ul>
-            <button
-              onClick={() => window.location.href = `/BookingCalendar?bookingType=beginner package`}
-              className="w-full bg-gray-600 text-white py-2 rounded-lg font-medium hover:bg-gray-700 transition duration-300"
-            >
-              Book Now
-            </button>
-
-          </div>
           
-          <div className="bg-gray-800 text-white p-6 rounded-lg shadow-lg transform scale-105">
-            <h3 className="text-xl font-bold mb-4">Standard Package</h3>
-            <div className="text-3xl font-bold mb-4">$30 <span className="text-lg opacity-80 font-normal">/ 45 min</span></div>
+          {/* One Lesson */}
+          <div
+            onClick={() => setSelectedPackage("one")}
+            className={`p-6 rounded-lg shadow-md border-t-4 border-yellow-400 cursor-pointer ${
+              isSelected("one") ? "bg-gray-800 text-white" : "bg-gray-50 text-gray-800"
+            }`}
+            
+          >
+            <h3 className="text-xl font-bold mb-4">One Lesson</h3>
+            <div className="text-3xl font-bold mb-4">30€ </div>
             <ul className="mb-8 space-y-2">
               <li className="flex items-center">
-                <svg className="h-5 w-5 text-indigo-200 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                45-minute lesson
+                ✅ 45-minute lesson
               </li>
               <li className="flex items-center">
-                <svg className="h-5 w-5 text-indigo-200 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                Comprehensive music theory
+                ✅ Personalized practice plan
               </li>
               <li className="flex items-center">
-                <svg className="h-5 w-5 text-indigo-200 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                Intermediate repertoire
+                ✅ Comprehensive music theory
               </li>
               <li className="flex items-center">
-                <svg className="h-5 w-5 text-indigo-200 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                Digital lesson materials
+                ✅ Intermediate repertoire
               </li>
               <li className="flex items-center">
-                <svg className="h-5 w-5 text-indigo-200 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                Personalized practice plan
+                ✅ Digital lesson materials
               </li>
             </ul>
             <button
-              onClick={() => window.location.href = `/BookingCalendar?bookingType=standard package`}
+              onClick={(e) => {
+                e.stopPropagation();
+                window.location.href = `/BookingCalendar?bookingType=one lesson`;
+              }}
               className="w-full bg-gray-600 text-white py-2 rounded-lg font-medium hover:bg-gray-700 transition duration-300"
             >
               Book Now
             </button>
           </div>
-          
-          <div className="bg-gray-50 p-6 rounded-lg shadow-md border-t-4 border-yellow-400">
-            <h3 className="text-xl font-bold mb-4 text-gray-800">Advanced Package</h3>
-            <div className="text-3xl font-bold mb-4 text-gray-800">$40 <span className="text-lg text-gray-600 font-normal">/ 60 min</span></div>
-            <ul className="mb-8 space-y-2 text-gray-800">
+
+          {/* 4 Lessons */}
+          <div
+            onClick={() => setSelectedPackage("four")}
+            className={`p-6 rounded-lg shadow-md border-t-4 border-yellow-400 cursor-pointer ${
+              isSelected("four") ? "bg-gray-800 text-white" : "bg-gray-50 text-gray-800"
+            }`}   
+          >
+            <h3 className="text-xl font-bold mb-4">4 Lessons</h3>
+            <div className="text-3xl font-bold mb-4">110€</div>
+            <ul className="mb-8 space-y-2">
               <li className="flex items-center">
-                <svg className="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                60-minute lesson
+                ✅ 45-minute lesson
               </li>
               <li className="flex items-center">
-                <svg className="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                Advanced music theory
+                ✅ Personalized practice plan
               </li>
               <li className="flex items-center">
-                <svg className="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                Advanced repertoire
+                ✅ Comprehensive music theory
               </li>
               <li className="flex items-center">
-                <svg className="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                All digital materials
+                ✅ Intermediate repertoire
               </li>
               <li className="flex items-center">
-                <svg className="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                Performance preparation
-              </li>
-              <li className="flex items-center">
-                <svg className="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                Exam preparation
+                ✅ Digital lesson materials
               </li>
             </ul>
             <button
-              onClick={() => window.location.href = `/BookingCalendar?bookingType=advanced package`}
+              onClick={(e) => {
+                e.stopPropagation();
+                window.location.href = `/BookingCalendar?bookingType=4 lessons`;
+              }}
               className="w-full bg-gray-600 text-white py-2 rounded-lg font-medium hover:bg-gray-700 transition duration-300"
             >
               Book Now
             </button>
           </div>
+
+          {/* 8 Lessons */}
+          <div
+            onClick={() => setSelectedPackage("eight")}
+            className={`p-6 rounded-lg shadow-md border-t-4 border-yellow-400 cursor-pointer ${
+              isSelected("eight") ? "bg-gray-800 text-white" : "bg-gray-50 text-gray-800"
+            }`}         
+          >
+            <h3 className="text-xl font-bold mb-4">8 Lessons</h3>
+            <div className="text-3xl font-bold mb-4">195€</div>
+            <ul className="mb-8 space-y-2">
+              <li className="flex items-center">
+                ✅ 45-minute lesson
+              </li>
+              <li className="flex items-center">
+                ✅ Personalized practice plan
+              </li>
+              <li className="flex items-center">
+                ✅ Comprehensive music theory
+              </li>
+              <li className="flex items-center">
+                ✅ Intermediate repertoire
+              </li>
+              <li className="flex items-center">
+                ✅ Digital lesson materials
+              </li>
+              <li className="flex items-center">
+                ✅ Weekly homework
+              </li>
+            </ul>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                window.location.href = `/BookingCalendar?bookingType=8 lessons`;
+              }}
+              className="w-full bg-gray-600 text-white py-2 rounded-lg font-medium hover:bg-gray-700 transition duration-300"
+            >
+              Book Now
+            </button>
+          </div>
+
         </div>
       </div>
     </section>

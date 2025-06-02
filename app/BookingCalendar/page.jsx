@@ -30,11 +30,20 @@ const BookingCalendar = () => {
     "13:00", "14:00", "15:00", "16:00",
     "17:00", "18:00", "19:00", "20:00",
   ];
-  // useEffect(() => {
-  //   if (bookingTypeFromURL) {
-  //     setFormData((prev) => ({ ...prev, bookingType: bookingTypeFromURL }));
-  //   }
-  // }, [bookingTypeFromURL]);
+
+  useEffect(() => {
+    const savedName = localStorage.getItem("booking_name");
+    const savedEmail = localStorage.getItem("booking_email");
+  
+    if (savedName || savedEmail) {
+      setFormData((prev) => ({
+        ...prev,
+        name: savedName || '',
+        email: savedEmail || '',
+      }));
+    }
+  }, []);
+
   useEffect(() => {
     const bookingTypeFromUrl = searchParams.get('bookingType');
     console.log('vlaga tuka');
@@ -130,9 +139,22 @@ const BookingCalendar = () => {
   
   // Handle input changes for user info form
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const { name, value } = e.target;
+
+  setFormData((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
+
+  if (name === "name") {
+    localStorage.setItem("booking_name", value);
+  }
+
+  if (name === "email") {
+    localStorage.setItem("booking_email", value);
+  }
+};
+
   
   // Handle going to next step
   const handleNext = async () => {

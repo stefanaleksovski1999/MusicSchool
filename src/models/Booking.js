@@ -1,4 +1,4 @@
-import mongoose, {Schema} from 'mongoose';
+import mongoose from 'mongoose';
 
 const BookingSchema = new  mongoose.Schema({
     time: { type: String, required: true },
@@ -7,7 +7,7 @@ const BookingSchema = new  mongoose.Schema({
     name: { type: String, required: false},
     bookingType: {
         type: String,
-        enum: ["free trial", "beginner package", "standard package", "advanced package"],
+        enum: ["free trial", "4 lessons", "8 lessons"],
         default: "free trial",
       },
 }, { timestamps: true });

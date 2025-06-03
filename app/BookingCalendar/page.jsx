@@ -194,8 +194,8 @@ const BookingCalendar = () => {
       }
   
     } else if (step === 2) {
-      if (!selectedDate) {
-        setError(t('Please select a date'));
+      if (!selectedDate || !formData.time) {
+        setError(t('Please select a date and time'));
         return;
       }
       setError('');
@@ -248,7 +248,7 @@ const BookingCalendar = () => {
   
       if (response.ok) {
         console.log("✅ Booking successful:", result);
-        setStep(4);
+        setStep(3);
       } else {
         console.error("❌ Booking failed:", result);
         alert("Booking failed. Try again.");
@@ -306,108 +306,194 @@ const BookingCalendar = () => {
       </div>
     </div>
   );
-  
-  // Render the calendar (Step 2)
-  const renderCalendar = () => {
+
+  const renderDateAndTimeSelection = () => {
     const days = generateCalendarDays();
     const monthName = currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-    
+  
     return (
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-100">{t('selectDate')}</h2>
-        
-        <div className="flex items-center justify-between mb-4">
-          <button 
-            onClick={() => changeMonth(-1)}
-            className="p-1 rounded-full hover:bg-gray-700"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <h3 className="text-lg font-medium text-gray-200">{monthName}</h3>
-          <button 
-            onClick={() => changeMonth(1)}
-            className="p-1 rounded-full hover:bg-gray-700"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
+      <div className="space-y-6">
+        <div>
+          <h2 className="text-xl font-semibold text-gray-100">{t('selectDate')}</h2>
+          <div className="flex items-center justify-between mb-4">
+            <button onClick={() => changeMonth(-1)} className="p-1 rounded-full hover:bg-gray-700">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <h3 className="text-lg font-medium text-gray-200">{monthName}</h3>
+            <button onClick={() => changeMonth(1)} className="p-1 rounded-full hover:bg-gray-700">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+          <div className="grid grid-cols-7 gap-1 text-center">
+            {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
+              <div key={day} className="text-sm font-medium text-gray-400 p-2">{day}</div>
+            ))}
+            {days.map((day, index) => (
+              <div key={index} className="p-2">
+                {day.day ? (
+                  <button
+                    onClick={() => handleDateSelect(day.date)}
+                    disabled={day.isPast}
+                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm
+                      ${day.isPast ? 'text-gray-600 cursor-not-allowed' : 
+                        selectedDate && day.date.getTime() === selectedDate.getTime() ? 
+                        'bg-indigo-600 text-white' : 
+                        day.isToday ? 'border border-indigo-500 text-indigo-500' : 'text-gray-300 hover:bg-gray-700'}`}
+                  >
+                    {day.day}
+                  </button>
+                ) : null}
+              </div>
+            ))}
+          </div>
         </div>
-        
-        <div className="grid grid-cols-7 gap-1 text-center">
-          {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-            <div key={day} className="text-sm font-medium text-gray-400 p-2">
-              {day}
-            </div>
-          ))}
-          
-          {days.map((day, index) => (
-            <div key={index} className="p-2">
-              {day.day ? (
-                <button
-                  onClick={() => handleDateSelect(day.date)}
-                  disabled={day.isPast}
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm
-                    ${day.isPast ? 'text-gray-600 cursor-not-allowed' : 
-                      selectedDate && day.date.getTime() === selectedDate.getTime() ? 
-                      'bg-indigo-600 text-white' : 
-                      day.isToday ? 'border border-indigo-500 text-indigo-500' : 'text-gray-300 hover:bg-gray-700'
-                    }`}
-                >
-                  {day.day}
-                </button>
-              ) : null}
-            </div>
-          ))}
-        </div>
-        
+  
         {selectedDate && (
-          <div className="mt-4 text-center p-2 bg-gray-700 rounded-md">
+          <div>
             <p className="text-gray-200">{t('selected')}: {formatDate(selectedDate)}</p>
+            <div className="mt-4">
+              <h3 className="text-lg font-medium text-gray-100">{t('selectTime')}</h3>
+              {isLoading ? (
+                <div className="flex justify-center mt-4">
+                  <svg className="animate-spin h-8 w-8 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                </div>
+              ) : (
+                <div className="grid grid-cols-3 gap-3 mt-2">
+                  {updatedAvailableTimes.map((time) => (
+                    <button
+                      key={time.id}
+                      onClick={() => handleTimeSelect(time.value)}
+                      disabled={!time.isAvailable}
+                      className={`p-3 rounded-md text-center ${
+                        !time.isAvailable
+                          ? "bg-gray-800 text-gray-500 cursor-not-allowed"
+                          : formData.time === time.value
+                          ? "bg-indigo-600 text-white"
+                          : "bg-gray-700 text-gray-200 hover:bg-gray-600"
+                      }`}
+                    >
+                      {time.value}
+                      {!time.isAvailable && <span className="block text-xs mt-1">(Booked)</span>}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>
     );
   };
   
-  // Render the time selection (Step 3)
-  const renderTimeSelection = () => (
-    <div className="space-y-4">
-      <h2 className="text-xl font-semibold text-gray-100">{t('selectDate')}</h2>
-      <p className="text-gray-300">{formatDate(selectedDate)}</p>
+  
+  // // Render the calendar (Step 2)
+  // const renderCalendar = () => {
+  //   const days = generateCalendarDays();
+  //   const monthName = currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    
+  //   return (
+  //     <div className="space-y-4">
+  //       <h2 className="text-xl font-semibold text-gray-100">{t('selectDate')}</h2>
+        
+  //       <div className="flex items-center justify-between mb-4">
+  //         <button 
+  //           onClick={() => changeMonth(-1)}
+  //           className="p-1 rounded-full hover:bg-gray-700"
+  //         >
+  //           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  //             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+  //           </svg>
+  //         </button>
+  //         <h3 className="text-lg font-medium text-gray-200">{monthName}</h3>
+  //         <button 
+  //           onClick={() => changeMonth(1)}
+  //           className="p-1 rounded-full hover:bg-gray-700"
+  //         >
+  //           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  //             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+  //           </svg>
+  //         </button>
+  //       </div>
+        
+  //       <div className="grid grid-cols-7 gap-1 text-center">
+  //         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
+  //           <div key={day} className="text-sm font-medium text-gray-400 p-2">
+  //             {day}
+  //           </div>
+  //         ))}
+          
+  //         {days.map((day, index) => (
+  //           <div key={index} className="p-2">
+  //             {day.day ? (
+  //               <button
+  //                 onClick={() => handleDateSelect(day.date)}
+  //                 disabled={day.isPast}
+  //                 className={`w-8 h-8 rounded-full flex items-center justify-center text-sm
+  //                   ${day.isPast ? 'text-gray-600 cursor-not-allowed' : 
+  //                     selectedDate && day.date.getTime() === selectedDate.getTime() ? 
+  //                     'bg-indigo-600 text-white' : 
+  //                     day.isToday ? 'border border-indigo-500 text-indigo-500' : 'text-gray-300 hover:bg-gray-700'
+  //                   }`}
+  //               >
+  //                 {day.day}
+  //               </button>
+  //             ) : null}
+  //           </div>
+  //         ))}
+  //       </div>
+        
+  //       {selectedDate && (
+  //         <div className="mt-4 text-center p-2 bg-gray-700 rounded-md">
+  //           <p className="text-gray-200">{t('selected')}: {formatDate(selectedDate)}</p>
+  //         </div>
+  //       )}
+  //     </div>
+  //   );
+  // };
+  
+  // // Render the time selection (Step 3)
+  // const renderTimeSelection = () => (
+  //   <div className="space-y-4">
+  //     <h2 className="text-xl font-semibold text-gray-100">{t('selectDate')}</h2>
+  //     <p className="text-gray-300">{formatDate(selectedDate)}</p>
       
-      {isLoading ? (
-        <div className="flex justify-center">
-          <svg className="animate-spin h-8 w-8 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-        </div>
-      ) : (
-        <div className="grid grid-cols-3 gap-3">
-          {updatedAvailableTimes.map((time) => (
-            <button
-              key={time.id}
-              onClick={() => handleTimeSelect(time.value)}
-              disabled={!time.isAvailable}
-              className={`p-3 rounded-md text-center ${
-                !time.isAvailable
-                  ? "bg-gray-800 text-gray-500 cursor-not-allowed"
-                  : formData.time === time.value
-                  ? "bg-indigo-600 text-white"
-                  : "bg-gray-700 text-gray-200 hover:bg-gray-600"
-              }`}
-            >
-              {time.value}
-              {!time.isAvailable && <span className="block text-xs mt-1">(Booked)</span>}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
+  //     {isLoading ? (
+  //       <div className="flex justify-center">
+  //         <svg className="animate-spin h-8 w-8 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+  //           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+  //           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+  //         </svg>
+  //       </div>
+  //     ) : (
+  //       <div className="grid grid-cols-3 gap-3">
+  //         {updatedAvailableTimes.map((time) => (
+  //           <button
+  //             key={time.id}
+  //             onClick={() => handleTimeSelect(time.value)}
+  //             disabled={!time.isAvailable}
+  //             className={`p-3 rounded-md text-center ${
+  //               !time.isAvailable
+  //                 ? "bg-gray-800 text-gray-500 cursor-not-allowed"
+  //                 : formData.time === time.value
+  //                 ? "bg-indigo-600 text-white"
+  //                 : "bg-gray-700 text-gray-200 hover:bg-gray-600"
+  //             }`}
+  //           >
+  //             {time.value}
+  //             {!time.isAvailable && <span className="block text-xs mt-1">(Booked)</span>}
+  //           </button>
+  //         ))}
+  //       </div>
+  //     )}
+  //   </div>
+  // );
   
   // Render the confirmation (Step 4)
   const renderConfirmation = () => (
@@ -452,9 +538,8 @@ const BookingCalendar = () => {
           
           {/* Form steps */}
           {step === 1 && renderUserInfoForm()}
-          {step === 2 && renderCalendar()}
-          {step === 3 && renderTimeSelection()}
-          {step === 4 && renderConfirmation()}
+          {step === 2 && renderDateAndTimeSelection()}
+          {step === 3 && renderConfirmation()}
           
           {/* Error message */}
           {error && (
@@ -464,14 +549,14 @@ const BookingCalendar = () => {
           )}
           
           {/* Success message */}
-          {success && step !== 4 && (
+          {success && step !== 3 && (
             <div className="mt-4 text-green-500 text-sm">
               {success}
             </div>
           )}
           
           {/* Navigation buttons */}
-          {step < 4 && (
+          {step < 3 && (
             <div className="mt-6 flex justify-between">
               {step > 1 ? (
                 <button
@@ -484,7 +569,16 @@ const BookingCalendar = () => {
                 <div></div> // Empty div to maintain spacing
               )}
               
-              {step < 3 ? (
+              {step === 2 && formData.time ? (
+                <button
+                  onClick={handleSubmit}
+                  disabled={isLoading}
+                  className={`px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500
+                    ${isLoading ? 'bg-gray-600 text-gray-400 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-700'}`}
+                >
+                  {isLoading ? 'Booking...' : t('confirmBooking')}
+                </button>
+              ) : step < 3 ? (
                 <button
                   onClick={handleNext}
                   className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500"
@@ -503,6 +597,7 @@ const BookingCalendar = () => {
                   {isLoading ? 'Booking...' : t('confirmBooking')}
                 </button>
               )}
+
             </div>
           )}
         </div>

@@ -44,7 +44,6 @@ export async function sendConfirmationEmail({ to, name, date, time, bookingType 
   } else {
     // Customize based on package
     if (locale === "en") {
-      console.log("tuke ideeeeeeee 22222222", locale);
     let price = "";
     if (bookingType === "beginner package") price = "$20";
     if (bookingType === "standard package") price = "$30";
@@ -54,7 +53,7 @@ export async function sendConfirmationEmail({ to, name, date, time, bookingType 
 
     html = `
       <h2>Hello ${displayName}! 🎶</h2>
-      <p>Your <strong>${bookingType}</strong> lesson has been booked:</p>
+      <p>Your <strong>${bookingType}</strong> has been booked:</p>
       <p><strong>Date:</strong> ${date}<br/><strong>Time:</strong> ${time}</p>
 
       <h3>💳 Payment Required</h3>
@@ -77,8 +76,8 @@ export async function sendConfirmationEmail({ to, name, date, time, bookingType 
       
     } else {
       let price = "";
-      if (bookingType === "beginner package") price = "$20";
-      if (bookingType === "standard package") price = "$30";
+      if (bookingType === "4 lessons") price = "$110";
+      if (bookingType === "8 lessons") price = "$195";
       if (bookingType === "advanced package") price = "$40";
 
       subject = `🎹 Deine ${bookingType} ist bestätigt – Zahlungsinformationen`;

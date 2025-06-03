@@ -1,26 +1,14 @@
 "use client"; 
 
 import React from 'react';
-import { useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from 'use-intl';
 
-const videos = [
-  "https://www.youtube.com/watch?v=oR2StQvQN_I&t=20s",
-  "https://www.youtube.com/watch?v=5gKxB8VQiTk"
-];
+
 
 function AboutSection() {
   const t = useTranslations();
-  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const prevVideo = () => {
-    setCurrentIndex((prev) => (prev === 0 ? videos.length - 1 : prev - 1));
-  };
-
-  const nextVideo = () => {
-    setCurrentIndex((prev) => (prev === videos.length - 1 ? 0 : prev + 1));
-  };
+  
 
 
   return (

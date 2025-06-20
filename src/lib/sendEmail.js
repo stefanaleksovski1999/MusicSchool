@@ -1,5 +1,37 @@
 import nodemailer from "nodemailer";
 import { cookies} from "next/headers";
+import { createEvent } from 'ics';
+
+function generateICS({ name, date, time }) {
+  const [hour, minute] = time.split(':').map(Number);
+  const eventDate = new Date(date);
+
+  const event = {
+    start: [
+      eventDate.getFullYear(),
+      eventDate.getMonth() + 1,
+      eventDate.getDate(),
+      hour,
+      minute
+    ],
+    duration: { minutes: 45 },
+    title: 'Piano Lesson',
+    description: `Piano lesson with ${name}`,
+    location: 'Online (Microsoft Teams)',
+    organizer: { name: 'Your Music School', email: 'your@email.com' },
+  };
+
+  return new Promise((resolve, reject) => {
+    createEvent(event, (error, value) => {
+      if (error) {
+        console.error("❌ ICS generation failed:", error);
+        reject(error);
+      } else {
+        resolve(Buffer.from(value));
+      }
+    });
+  });
+}
 
 export async function sendConfirmationEmail({ to, name, date, time, bookingType }) {
   const cookieLocale = (await cookies()).get("MYMUSICCALENDARAPPMKDCHASOVI_LOCALE")?.value || "en";
@@ -45,8 +77,8 @@ export async function sendConfirmationEmail({ to, name, date, time, bookingType 
     // Customize based on package
     if (locale === "en") {
     let price = "";
-    if (bookingType === "beginner package") price = "$20";
-    if (bookingType === "standard package") price = "$30";
+    if (bookingType === "4 lessons") price = "$110";
+    if (bookingType === "8 lessons") price = "$195";
     if (bookingType === "advanced package") price = "$40";
 
     subject = `🎹 Your ${bookingType} is confirmed – Payment Information`;
@@ -108,12 +140,28 @@ export async function sendConfirmationEmail({ to, name, date, time, bookingType 
     }
   }
 
+  // const mailOptions = {
+  //   from: `"Your Music School" <${process.env.EMAIL_USER}>`,
+  //   to,
+  //   subject,
+  //   html,
+  // };
+
+  const icsBuffer = await generateICS({ name, date, time });
   const mailOptions = {
     from: `"Your Music School" <${process.env.EMAIL_USER}>`,
     to,
     subject,
     html,
+    attachments: [
+      {
+        filename: 'lesson.ics',
+        content: icsBuffer,
+        contentType: 'text/calendar'
+      }
+    ]
   };
+  
 
   await transporter.sendMail(mailOptions);
 }
